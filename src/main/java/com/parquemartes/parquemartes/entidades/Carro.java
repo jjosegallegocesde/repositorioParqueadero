@@ -34,17 +34,23 @@ public class Carro {
     
     @Column(name="pago")
     private int pago;
+    
+    @Column(name="estado")
+    private boolean estado;
 
     public Carro() {
     }
 
-    public Carro(String placa, String nombre, String entrada, String salida, int pago) {
+    public Carro(String placa, String nombre, String entrada, String salida, int pago, boolean estado) {
         this.placa = placa;
         this.nombre = nombre;
         this.entrada = entrada;
         this.salida = salida;
         this.pago = pago;
+        this.estado = estado;
     }
+
+    
 
     public String getPlaca() {
         return placa;
@@ -85,6 +91,16 @@ public class Carro {
     public void setPago(int pago) {
         this.pago = pago;
     }
+
+    public boolean isEstado() {
+        return estado;
+    }
+
+    public void setEstado(boolean estado) {
+        this.estado = estado;
+    }
+    
+    
     
     
     

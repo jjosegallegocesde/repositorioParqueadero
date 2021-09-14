@@ -58,12 +58,9 @@ public class CarroServicio {
             carroInfo.setEntrada(entrada);
             carroInfo.setSalida(salida);
             carroInfo.setPago(pago);
+            carroInfo.setEstado(true);
             
-            System.out.println(carroInfo.getPlaca());
-            System.out.println(carroInfo.getNombre());
-            System.out.println(carroInfo.getEntrada());
-            System.out.println(carroInfo.getSalida());
-            System.out.println(carroInfo.getPago());
+            
             
             return carrorepositorio.save(carroInfo);
             
@@ -85,6 +82,15 @@ public class CarroServicio {
         
         try{
             
+            //1. ACtualizar la info de parqueadero porque lelog un carro nuevo
+            //cupos disponibles se rebajan y los reservados se aumentan
+            Parqueadero parqueadero=parqueaderoServicio.obtenerInformacion(160);
+            int cuposDisponibles=parqueadero.getCupos_disponibles();
+            int cuposreservados=parqueadero.getCupos_reservados();
+            parqueadero.setCupos_disponibles(cuposDisponibles+1);
+            parqueadero.setCupos_reservados(cuposreservados-1);
+            parqueaderoServicio.editarInformacion(160, parqueadero);
+            
             //1. Consultar la fecha de entrada del carro
             Optional<Carro> datosCarro=carrorepositorio.findById(placa);
             String fechaEntrada=datosCarro.get().getEntrada();
@@ -100,6 +106,7 @@ public class CarroServicio {
             Carro carro=datosCarro.get();
             carro.setSalida(fechSalida);
             carro.setPago(valorPago);
+            carro.setEstado(false);
             carrorepositorio.save(carro);
             
             return carro;
